@@ -1,0 +1,22 @@
+{
+    "name": "weareframework/clever-search",
+    "autoload": {
+        "psr-4": {
+            "Weareframework\\CleverSearch\\": "src"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Clever Search",
+            "description": "Clever Search addon"
+        },
+        "laravel": {
+            "providers": [
+                "Weareframework\\CleverSearch\\ServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "loilo/fuse": "^6.6"
+    }
+}
