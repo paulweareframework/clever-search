@@ -4,12 +4,12 @@ namespace Weareframework\CleverSearch\Http\Controllers\Api;
 
 use Fuse\Fuse;
 use Illuminate\Http\Request;
-use Statamic\Http\Controllers\CP\CpController;
+use Statamic\Http\Controllers\Controller;
 use Weareframework\CleverSearch\Library\Errors\GeneralError;
 use Weareframework\CleverSearch\Library\Files\SettingsFile;
 use Weareframework\CleverSearch\Library\Settings\CollectSettings;
 
-class SearchController extends CpController
+class SearchController extends Controller
 {
     /**
      * @var SettingsFile
