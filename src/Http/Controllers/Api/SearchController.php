@@ -25,27 +25,30 @@ class SearchController extends CpController
 
     public function index(Request $request)
     {
-      try {
-        $query = $request->input('q');
-        $settings = (new CollectSettings($this->file))->handle();
+        try {
+            $query = $request->input('q');
+            $optionsIn = $request->input('options') ?? null;
+            $settings = (new CollectSettings($this->file))->handle();
 
-        $fields = (!empty($settings->values['clever_search_which_fields'])) ? array_keys($settings->values['clever_search_which_fields']) : ['*'];
-        $list = (!empty($settings->values['clever_search_results'])) ? $settings->values['clever_search_results'] : [];
+            $fields = (!empty($settings->values['clever_search_which_fields'])) ? array_keys($settings->values['clever_search_which_fields']) : ['*'];
+            $list = (!empty($settings->values['clever_search_results'])) ? $settings->values['clever_search_results'] : [];
 
-        $options = [
-          'keys' => $fields,
-        ];
+            $options = [];
+            if (! is_null($optionsIn)) {
+                $options = $optionsIn;
+            }
 
-        $fuse = new Fuse($list, $options);
-        $results = $fuse->search($query);
-        return response()->json([
-          'success' => true,
-          'message' => 'index',
-          'data' => $results
-        ]);
-      } catch (\Exception $exception) {
-        return GeneralError::api($exception);
-      }
+            $options['keys'] = $fields;
 
+            $fuse = new Fuse($list, $options);
+            $results = $fuse->search($query);
+            return response()->json([
+                'success' => true,
+                'message' => 'index',
+                'data' => $results
+            ]);
+        } catch (\Exception $exception) {
+            return GeneralError::api($exception);
+        }
     }
 }
