@@ -19,8 +19,6 @@ class SearchController extends Controller
     public function __construct(Request $request, SettingsFile $file)
     {
       $this->file = $file;
-
-      parent::__construct($request);
     }
 
     public function index(Request $request)
