@@ -31,6 +31,8 @@ class SearchController extends CpController
             $settings = (new CollectSettings($this->file))->handle();
 
             $fields = (!empty($settings->values['clever_search_which_fields'])) ? array_keys($settings->values['clever_search_which_fields']) : ['*'];
+            $searchFields = (!empty($settings->values['clever_search_which_search_fields'])) ? array_keys($settings->values['clever_search_which_search_fields']) : ['*'];
+
             $list = (!empty($settings->values['clever_search_results'])) ? $settings->values['clever_search_results'] : [];
 
             $options = [];
@@ -38,7 +40,7 @@ class SearchController extends CpController
                 $options = $optionsIn;
             }
 
-            $options['keys'] = $fields;
+            $options['keys'] = $searchFields;
 
             $fuse = new Fuse($list, $options);
             $results = $fuse->search($query);

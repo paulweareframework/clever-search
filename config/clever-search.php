@@ -26,7 +26,15 @@ return [
                 'clever_search_which_fields' => [
                     'type' => 'array',
                     'listable' => false,
-                    'display' => 'Collection Fields?',
+                    'display' => 'Stored Collection Fields?',
+                    'instructions' => 'To store in the index? please get the key names from blueprints',
+                    'mode' => 'dynamic',
+                    'icon' => 'array',
+                ],
+                'clever_search_which_search_fields' => [
+                    'type' => 'array',
+                    'listable' => false,
+                    'display' => 'Searched Collection Fields?',
                     'instructions' => 'Which fields names to clever search against? please get the key names from blueprints',
                     'mode' => 'dynamic',
                     'icon' => 'array',
