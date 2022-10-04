@@ -7,6 +7,13 @@ use Statamic\Providers\AddonServiceProvider;
 
 class ServiceProvider extends AddonServiceProvider
 {
+
+    protected $listen = [
+        \Statamic\Events\EntrySaved::class => [
+            \Weareframework\CleverSearch\Listeners\UpdateCleverSearchStoredResults::class,
+        ],
+    ];
+
     protected $routes = [
         'cp'  => __DIR__.'/../routes/cp.php',
         'web'  => __DIR__.'/../routes/web.php',

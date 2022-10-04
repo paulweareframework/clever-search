@@ -42,6 +42,7 @@ class SearchController extends Controller
 
             $fuse = new Fuse($list, $options);
             $results = $fuse->search($query);
+
             return response()->json([
                 'success' => true,
                 'message' => 'index',

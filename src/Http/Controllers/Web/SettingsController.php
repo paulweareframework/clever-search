@@ -10,6 +10,7 @@ use Statamic\Facades\Blueprint;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\UploadedFile;
 use Statamic\Http\Controllers\CP\CpController;
+use Weareframework\CleverSearch\Library\Results\StoreSearchResults;
 use Weareframework\CleverSearch\Library\Settings\CollectSettings;
 
 class SettingsController extends CpController
@@ -43,26 +44,15 @@ class SettingsController extends CpController
         $settings->updateValues($request->all());
     }
 
-
     public function updateIndexes(Request $request)
     {
       try {
-        $settings = (new CollectSettings($this->file))->handle();
+        $result = (new StoreSearchResults($this->file))->handle();
 
-        $collection = (!empty($settings->values['clever_search_which_collection'])) ? $settings->values['clever_search_which_collection'] : null;
-        $fields = (!empty($settings->values['clever_search_which_fields'])) ? array_keys($settings->values['clever_search_which_fields']) : ['*'];
-        $results = Entry::query()
-          ->where('collection', 'products')
-          ->get($fields);
-
-        if ($results->count() === 0) {
-          throw new \Exception('No results');
+        if (! $result) {
+            throw new \Exception('It did not save');
         }
 
-        $values = $settings->values;
-
-        $values['clever_search_results'] = $results->toArray();
-        $settings->updateValues($values);
         session()->flash('success', 'Product Color Swatch updated successfully');
       } catch(\Exception $exception) {
         session()->flash('error', $exception->getMessage());
