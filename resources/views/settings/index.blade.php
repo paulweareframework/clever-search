@@ -2,8 +2,8 @@
 @section('title', 'Clever Search')
 @section('content')
     <div class="flex items-center mb-3">
-        <h1 class="flex-1">Clever Search Settings</h1>
-        <p>This system uses fuse search to fuzzy clever search over a collection and fields of your choosing</p>
+        <h1 class="flex-1">Clever Search</h1>
+        <p>This system uses fuse php to search over a collection and fields of your choosing</p>
     </div>
 
     <div>
