@@ -34,6 +34,8 @@ class SearchController extends Controller
             $list = (!empty($settings->values['clever_search_results'])) ? $settings->values['clever_search_results'] : [];
 
             $options = [];
+            $options['threshold'] = 0.1;
+            
             if (! is_null($optionsIn)) {
                 $options = $optionsIn;
             }
