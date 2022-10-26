@@ -34,7 +34,21 @@ class SearchController extends Controller
             $list = (!empty($settings->values['clever_search_results'])) ? $settings->values['clever_search_results'] : [];
 
             $options = [];
+            $options['isCaseSensitive'] = false;
+            $options['includeScore'] = false;
+            $options['shouldSort'] = true;
+            $options['includeMatches'] = false;
+            $options['findAllMatches'] = false;
             $options['threshold'] = 0.1;
+            $options['minMatchCharLength'] = 3;
+            $options['threshold'] = 0.1;
+            $options['location'] = 0;
+            $options['threshold'] = 0.4;
+            $options['distance'] = 100;
+            $options['useExtendedSearch'] = false;
+            $options['ignoreLocation'] = false;
+            $options['ignoreFieldNorm'] = false;
+            $options['fieldNormWeight'] = 1;
 
             if (! is_null($optionsIn)) {
                 $options = $optionsIn;

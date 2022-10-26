@@ -38,7 +38,18 @@ class StoreSearchResults
 
             $values = $settings->values;
 
-            $values['clever_search_results'] = $results->toArray();
+            $resultsArray = $results->toArray();
+
+            $resultsArrayNew = array_map(function($item) {
+                foreach($item as $key => $row) {
+                    if (is_array($row)) {
+                        $item[$key] = implode(',', $row);
+                    }
+                }
+                return $item;
+            }, $resultsArray);
+
+            $values['clever_search_results'] = $resultsArrayNew;
             $settings->updateValues($values);
             return true;
         } catch(\Exception $exception) {
