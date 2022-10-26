@@ -28,6 +28,7 @@ class StoreSearchResults
             $collection = (!empty($settings->values['clever_search_which_collection'])) ? $settings->values['clever_search_which_collection'] : null;
             $fields = (!empty($settings->values['clever_search_which_fields'])) ? array_keys($settings->values['clever_search_which_fields']) : ['*'];
             $results = Entry::query()
+                ->where('published', true)
                 ->where('collection', $collection)
                 ->get($fields);
 

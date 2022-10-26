@@ -35,7 +35,7 @@ class SearchController extends Controller
 
             $options = [];
             $options['threshold'] = 0.1;
-            
+
             if (! is_null($optionsIn)) {
                 $options = $optionsIn;
             }
