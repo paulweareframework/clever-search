@@ -37,7 +37,6 @@ class StoreSearchResults
             }
 
             $values = $settings->values;
-
             $resultsArray = $results->toArray();
 
             $resultsArrayNew = array_map(function($item) {
