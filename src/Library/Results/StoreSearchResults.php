@@ -42,7 +42,11 @@ class StoreSearchResults
             $resultsArrayNew = array_map(function($item) {
                 foreach($item as $key => $row) {
                     if (is_array($row)) {
-                        $item[$key] = implode(',', $row);
+                        try {
+                            $item[$key] = implode(',', $row);
+                        } catch(\Exception $exception) {
+                            Log::info($exception->getMessage());
+                        }
                     }
                 }
                 return $item;
