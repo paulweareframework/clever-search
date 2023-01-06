@@ -93,7 +93,7 @@ class SearchController extends Controller
 
         if ($aField === $bField) return 0;
 
-        if (strtolower($this->sortDirection) === 'asc') {
+        if (strtolower($this->sortDirection) === 'desc') {
             return ($aField > $bField) ? -1 : 1;
         }
 
