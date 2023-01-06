@@ -57,7 +57,6 @@ class SearchController extends Controller
             $options['ignoreLocation'] = false;
             $options['ignoreFieldNorm'] = false;
             $options['fieldNormWeight'] = 1;
-//            $options['sortFn'] = $this->sortBy()
 
             if (! is_null($optionsIn)) {
                 $options = $optionsIn;
