@@ -67,8 +67,13 @@ class SearchController extends Controller
             $fuse = new Fuse($list, $options);
             $results = $fuse->search($query);
 
+
             if (! is_null($this->sortBy)) {
-                uasort($results, [$this, 'my_sort']);
+                $collection = collect($results)->sortBy([
+                    fn ($a, $b) => $this->my_sort($a, $b),
+                ]);
+
+                $results = $collection->values()->all();
             }
 
             return response()->json([
@@ -88,7 +93,7 @@ class SearchController extends Controller
 
         if ($aField === $bField) return 0;
 
-        if ($this->sortDirection === 'DESC') {
+        if (strtolower($this->sortDirection) === 'asc') {
             return ($aField > $bField) ? -1 : 1;
         }
 
