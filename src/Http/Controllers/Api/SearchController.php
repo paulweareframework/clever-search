@@ -8,6 +8,7 @@ use Statamic\Http\Controllers\Controller;
 use Weareframework\CleverSearch\Library\Errors\GeneralError;
 use Weareframework\CleverSearch\Library\Files\SettingsFile;
 use Weareframework\CleverSearch\Library\Settings\CollectSettings;
+use Illuminate\Support\Arr;
 
 class SearchController extends Controller
 {
@@ -15,6 +16,9 @@ class SearchController extends Controller
      * @var SettingsFile
      */
     protected $file;
+
+    protected $sortBy = null;
+    protected $sortDirection = null;
 
     public function __construct(Request $request, SettingsFile $file)
     {
@@ -26,6 +30,10 @@ class SearchController extends Controller
         try {
             $query = $request->input('q');
             $optionsIn = $request->input('options') ?? null;
+
+            $this->sortBy = $request->input('sort_by') ?? null;
+            $this->sortDirection = $request->input('sort_direction') ?? null;
+
             $settings = (new CollectSettings($this->file))->handle();
 
             $fields = (!empty($settings->values['clever_search_which_fields'])) ? array_keys($settings->values['clever_search_which_fields']) : ['*'];
@@ -49,6 +57,7 @@ class SearchController extends Controller
             $options['ignoreLocation'] = false;
             $options['ignoreFieldNorm'] = false;
             $options['fieldNormWeight'] = 1;
+//            $options['sortFn'] = $this->sortBy()
 
             if (! is_null($optionsIn)) {
                 $options = $optionsIn;
@@ -59,6 +68,11 @@ class SearchController extends Controller
             $fuse = new Fuse($list, $options);
             $results = $fuse->search($query);
 
+            if (! is_null($this->sortBy)) {
+                uasort($results, [$this, 'my_sort']);
+                dd($results);
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'index',
@@ -67,5 +81,19 @@ class SearchController extends Controller
         } catch (\Exception $exception) {
             return GeneralError::api($exception);
         }
+    }
+
+    protected function my_sort($a, $b)
+    {
+        $aField = (isset($a['item'][$this->sortBy])) ? $a['item'][$this->sortBy] : $a;
+        $bField = (isset($b['item'][$this->sortBy])) ? $b['item'][$this->sortBy] : $b;
+
+        if ($aField === $bField) return 0;
+
+        if ($this->sortDirection === 'DESC') {
+            return ($aField > $bField) ? -1 : 1;
+        }
+
+        return ($aField < $bField) ? -1 : 1;
     }
 }
