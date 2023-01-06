@@ -70,7 +70,6 @@ class SearchController extends Controller
 
             if (! is_null($this->sortBy)) {
                 uasort($results, [$this, 'my_sort']);
-                dd($results);
             }
 
             return response()->json([
